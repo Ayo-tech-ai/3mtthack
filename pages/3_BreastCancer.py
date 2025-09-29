@@ -1,38 +1,23 @@
 import streamlit as st
 import joblib
-import numpy as np
 import pandas as pd
 import os
-
-st.set_page_config(
-    page_title="Breast Cancer Prediction",
-    page_icon="🎀",
-    layout="centered"
-)
 
 st.title("🎀 Breast Cancer Prediction")
 st.write("Enter patient metrics to predict whether the tumor is Malignant or Benign.")
 
 # -------------------------------
-# Load model and scaler
+# ✅ Load your saved model and scaler from the models/ folder
 # -------------------------------
-@st.cache_resource
-def load_model_scaler():
-    # Model/scaler in ../models relative to this app.py
-    model_path = os.path.join(os.path.dirname(__file__), "../models/rf_breast_top10.joblib")
-    scaler_path = os.path.join(os.path.dirname(__file__), "../models/scaler_top10.joblib")
-    
-    if not os.path.exists(model_path) or not os.path.exists(scaler_path):
-        st.error(f"Model or scaler files not found!\nExpected:\n{model_path}\n{scaler_path}")
-        return None, None
+model_path = os.path.join("models", "rf_breast_top10.joblib")
+scaler_path = os.path.join("models", "scaler_top10.joblib")
 
-    model = joblib.load(model_path)
-    scaler = joblib.load(scaler_path)
-    return model, scaler
-
-model, scaler = load_model_scaler()
-if model is None:
+if not os.path.exists(model_path) or not os.path.exists(scaler_path):
+    st.error("Model or scaler files not found in the models folder!")
     st.stop()
+
+model = joblib.load(model_path)
+scaler = joblib.load(scaler_path)
 
 # -------------------------------
 # Sidebar: User input for 10 features
@@ -51,7 +36,7 @@ for feature in feature_names:
         feature, min_value=0.0, max_value=1000.0, step=0.01
     )
 
-# Convert to DataFrame and scale
+# Convert input to DataFrame and scale
 input_df = pd.DataFrame([input_data])
 input_scaled = scaler.transform(input_df)
 

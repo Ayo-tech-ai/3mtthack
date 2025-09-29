@@ -1,8 +1,8 @@
 import streamlit as st
 import joblib
 import numpy as np
-import pandas as pd
 import os
+import pandas as pd
 
 st.title("🫁 Tuberculosis Prediction")
 st.write("Enter patient details to predict whether they have TB or are Normal.")
@@ -39,7 +39,7 @@ features = [
 
 input_data = {}
 for feature in features:
-    # For categorical features, use number inputs for encoded values
+    # Categorical features (encoded)
     if feature in ["Gender", "Chest_Pain", "Fever", "Night_Sweats",
                    "Sputum_Production", "Blood_in_Sputum", "Smoking_History",
                    "Previous_TB_History"]:
@@ -47,14 +47,11 @@ for feature in features:
     else:
         input_data[feature] = st.sidebar.number_input(f"{feature}", min_value=0.0, step=0.01)
 
-# -------------------------------
-# Ensure correct column order for scaler
-# -------------------------------
-scaler_features = features  # exact order used during training
-input_df = pd.DataFrame([input_data])[scaler_features]
+# Convert input to NumPy array (same order as features)
+input_array = np.array([list(input_data.values())], dtype=float)
 
 # Scale input
-input_scaled = scaler.transform(input_df)
+input_scaled = scaler.transform(input_array)
 
 # -------------------------------
 # Prediction

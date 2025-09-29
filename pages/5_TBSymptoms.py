@@ -2,8 +2,8 @@ import streamlit as st
 import joblib
 import numpy as np
 import pandas as pd
-import os
 from sklearn.preprocessing import LabelEncoder
+import os
 
 st.title("🫁 Tuberculosis Prediction")
 st.write("Enter patient details to predict whether they have TB or are Normal.")
@@ -14,7 +14,7 @@ st.write("Enter patient details to predict whether they have TB or are Normal.")
 @st.cache_resource
 def load_model_scaler():
     model_path = os.path.join("models", "rf_tb_top.joblib")
-    scaler_path = os.path.join("models", "scaler_tb_top.joblib")
+    scaler_path = os.path.join("models", "scaler_tb_top (1).joblib")
     
     if not os.path.exists(model_path) or not os.path.exists(scaler_path):
         st.error("Model or scaler files not found in the models folder!")
@@ -29,7 +29,7 @@ if model is None:
     st.stop()
 
 # -------------------------------
-# Define categorical features and known classes
+# Categorical features and known classes
 # -------------------------------
 categorical_features = {
     "Gender": ["Male", "Female"],
@@ -42,7 +42,7 @@ categorical_features = {
     "Previous_TB_History": ["No", "Yes"]
 }
 
-# Initialize label encoders dynamically
+# Initialize label encoders
 label_encoders = {}
 for feature, classes in categorical_features.items():
     le = LabelEncoder()
@@ -64,9 +64,7 @@ for feature in numerical_features:
 for feature, classes in categorical_features.items():
     input_data[feature] = st.sidebar.selectbox(f"{feature}", classes)
 
-# -------------------------------
-# Encode categorical features dynamically
-# -------------------------------
+# Encode categorical features
 for feature in categorical_features.keys():
     input_data[feature] = label_encoders[feature].transform([input_data[feature]])[0]
 

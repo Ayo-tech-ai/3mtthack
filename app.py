@@ -13,64 +13,53 @@ Select a condition below to start your prediction.
 st.markdown("---")
 st.subheader("Available Models")
 
-# Define models: label, description, page path
+# Define models: label, description, page path, color
 models = [
-    {
-        "label": "🦟 Malaria Prediction",
-        "desc": "Quickly predict Malaria from patient data.",
-        "page": "pages/1_Malaria.py"
-    },
-    {
-        "label": "🧠 Brain Abnormalities Detection",
-        "desc": "Detect brain abnormalities from medical images.",
-        "page": "pages/2_Brain.py"
-    },
-    {
-        "label": "🎀 Breast Cancer Prediction",
-        "desc": "Predict if a tumor is Malignant or Benign.",
-        "page": "pages/3_BreastCancer.py"
-    },
-    {
-        "label": "🫁 Tuberculosis Prediction",
-        "desc": "Predict TB presence from patient X-ray and symptoms.",
-        "page": "pages/4_TB.py"
-    },
-    {
-        "label": "🫁 TB Diagnosis",
-        "desc": "Assist diagnosis based on symptoms and patient metrics.",
-        "page": "pages/5_TBSymptoms.py"
-    },
-    {
-        "label": "🫁 Covid Image Detection",
-        "desc": "Detect Covid from chest X-ray images.",
-        "page": "pages/6_Covid.py"
-    }
+    {"label": "🦟 Malaria Prediction", "desc": "Quickly predict Malaria from patient data.", "page": "pages/1_Malaria.py", "color": "#FFCDD2"},
+    {"label": "🧠 Brain Abnormalities Detection", "desc": "Detect brain abnormalities from medical images.", "page": "pages/2_Brain.py", "color": "#C5CAE9"},
+    {"label": "🎀 Breast Cancer Prediction", "desc": "Predict if a tumor is Malignant or Benign.", "page": "pages/3_BreastCancer.py", "color": "#F8BBD0"},
+    {"label": "🫁 Tuberculosis Prediction", "desc": "Predict TB presence from patient X-ray and symptoms.", "page": "pages/4_TB.py", "color": "#B2EBF2"},
+    {"label": "🫁 TB Diagnosis", "desc": "Assist diagnosis based on symptoms and patient metrics.", "page": "pages/5_TBSymptoms.py", "color": "#DCEDC8"},
+    {"label": "🫁 Covid Image Detection", "desc": "Detect Covid from chest X-ray images.", "page": "pages/6_Covid.py", "color": "#FFE0B2"}
 ]
 
-# Display in two rows of three columns
 cols_per_row = 3
 for i in range(0, len(models), cols_per_row):
-    cols = st.columns(cols_per_row)
+    cols = st.columns(cols_per_row, gap="medium")
     for j, model in enumerate(models[i:i+cols_per_row]):
         with cols[j]:
             st.markdown(
                 f"""
                 <div style='
+                    height: 220px;
                     padding: 20px; 
                     border-radius: 15px; 
-                    background-color: #f5f5f5; 
-                    box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
+                    background-color: {model['color']}; 
+                    box-shadow: 3px 3px 15px rgba(0,0,0,0.15);
                     text-align: center;
-                    margin-bottom: 20px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
                 '>
-                    <h3>{model['label']}</h3>
-                    <p style='font-size:14px; color:#333;'>{model['desc']}</p>
+                    <div>
+                        <h3>{model['label']}</h3>
+                        <p style='font-size:14px; color:#333;'>{model['desc']}</p>
+                    </div>
+                    <div>
+                        <a href='{model["page"]}' style='
+                            display:inline-block;
+                            padding:8px 15px;
+                            background-color:#1976D2;
+                            color:white;
+                            border-radius:8px;
+                            text-decoration:none;
+                            font-weight:bold;
+                        '>➡️ Go to Model</a>
+                    </div>
                 </div>
                 """,
                 unsafe_allow_html=True
             )
-            # Proper multi-page navigation
-            st.page_link(model["page"], label="➡️ Go to Model")
 
 st.markdown("---")
 st.info("ℹ️ More models will be added soon. Stay tuned!")

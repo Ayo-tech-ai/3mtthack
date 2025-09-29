@@ -1,46 +1,14 @@
-# -------------------------------
-# Professional Navigation Sidebar (with st.query_params)
-# -------------------------------
-st.sidebar.title("🏥 AI Health Assistant")
-st.sidebar.subheader("Professional Navigation")
-
-# Define sidebar navigation items
-page = st.sidebar.radio("Go to:", [
-    "Home",
-    "Malaria",
-    "Brain Scan",
-    "Brain Cancer Scan",
-    "Tuberculosis",
-    "Tuberculosis Symptom Detector",
-    "COVID-19 Detector"
-])
-
-st.sidebar.markdown("---")
-st.sidebar.write(f"📌 Current: **{page}**")
-
-# Map selection to your pages using st.query_params
-if page == "Home":
-    st.experimental_set_query_params(page=None)  # Reset to homepage
-elif page == "Malaria":
-    st.query_params.update({"page": ["pages/1_Malaria.py"]})
-elif page == "Brain Scan":
-    st.query_params.update({"page": ["pages/2_Brain.py"]})
-elif page == "Brain Cancer Scan":
-    st.query_params.update({"page": ["pages/3_BreastCancer.py"]})
-elif page == "Tuberculosis":
-    st.query_params.update({"page": ["pages/4_TB.py"]})
-elif page == "Tuberculosis Symptom Detector":
-    st.query_params.update({"page": ["pages/5_TBSymptoms.py"]})
-elif page == "COVID-19 Detector":
-    st.query_params.update({"page": ["pages/6_Covid.py"]})
+import streamlit as st
 
 st.set_page_config(
-    page_title="🏥 AI Health Assistant", 
+    page_title="🏥 AI Health Assistant",
     layout="wide",
     page_icon="🏥"
 )
 
-# Custom CSS for professional dashboard styling
+# -------------------------------
+# Custom CSS for dashboard and model cards
+# -------------------------------
 st.markdown("""
 <style>
     .main-header {
@@ -164,16 +132,19 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# App header with dashboard style
+# -------------------------------
+# App header and subheader
+# -------------------------------
 st.markdown('<div class="main-header">🏥 AI Health Assistant Dashboard</div>', unsafe_allow_html=True)
-
 st.markdown("""
 <div class="sub-header">
 Advanced Clinical Intelligence Platform • Powered by AI Diagnostics
 </div>
 """, unsafe_allow_html=True)
 
+# -------------------------------
 # Dashboard Statistics
+# -------------------------------
 st.markdown("""
 <div class="dashboard-stats">
     <div class="stats-container">
@@ -199,69 +170,36 @@ st.markdown("""
 
 st.markdown('<div class="section-title">🩺 Clinical Prediction Models</div>', unsafe_allow_html=True)
 
-# Define models with specific colors for the gradient
+# -------------------------------
+# Models definition
+# -------------------------------
 models = [
-    {
-        "label": "🦟 Malaria Detection",
-        "desc": "Rapid malaria prediction from blood smear analysis and patient data",
-        "page": "pages/1_Malaria.py",
-        "color": "#dc2626",
-        "color_dark": "#991b1b"
-    },
-    {
-        "label": "🧠 Neuro Imaging Analysis",
-        "desc": "Advanced detection of brain abnormalities from medical imaging",
-        "page": "pages/2_Brain.py",
-        "color": "#7c3aed",
-        "color_dark": "#5b21b6"
-    },
-    {
-        "label": "🎀 Breast Cancer Assessment",
-        "desc": "Comprehensive tumor analysis for malignancy classification",
-        "page": "pages/3_BreastCancer.py",
-        "color": "#db2777",
-        "color_dark": "#9d174d"
-    },
-    {
-        "label": "🫁 Tuberculosis Screening",
-        "desc": "AI-powered TB detection from chest X-ray imaging",
-        "page": "pages/4_TB.py",
-        "color": "#ea580c",
-        "color_dark": "#9a3412"
-    },
-    {
-        "label": "📊 TB Symptom Analysis",
-        "desc": "Clinical diagnosis support based on symptoms and patient metrics",
-        "page": "pages/5_TBSymptoms.py",
-        "color": "#d97706",
-        "color_dark": "#92400e"
-    },
-    {
-        "label": "🦠 COVID-19 Detection",
-        "desc": "Automated COVID-19 identification from chest radiographs",
-        "page": "pages/6_Covid.py",
-        "color": "#059669",
-        "color_dark": "#047857"
-    }
+    {"label":"🦟 Malaria Detection","desc":"Rapid malaria prediction from blood smear analysis and patient data","page":"pages/1_Malaria.py","color":"#dc2626","color_dark":"#991b1b"},
+    {"label":"🧠 Neuro Imaging Analysis","desc":"Advanced detection of brain abnormalities from medical imaging","page":"pages/2_Brain.py","color":"#7c3aed","color_dark":"#5b21b6"},
+    {"label":"🎀 Breast Cancer Assessment","desc":"Comprehensive tumor analysis for malignancy classification","page":"pages/3_BreastCancer.py","color":"#db2777","color_dark":"#9d174d"},
+    {"label":"🫁 Tuberculosis Screening","desc":"AI-powered TB detection from chest X-ray imaging","page":"pages/4_TB.py","color":"#ea580c","color_dark":"#9a3412"},
+    {"label":"📊 TB Symptom Analysis","desc":"Clinical diagnosis support based on symptoms and patient metrics","page":"pages/5_TBSymptoms.py","color":"#d97706","color_dark":"#92400e"},
+    {"label":"🦠 COVID-19 Detection","desc":"Automated COVID-19 identification from chest radiographs","page":"pages/6_Covid.py","color":"#059669","color_dark":"#047857"}
 ]
 
-# Display models in responsive grid with enhanced launch buttons
+# -------------------------------
+# Display models in grid with launch buttons
+# -------------------------------
 cols_per_row = 3
 for i in range(0, len(models), cols_per_row):
     cols = st.columns(cols_per_row)
     for j, model in enumerate(models[i:i+cols_per_row]):
         with cols[j]:
-            # Set CSS variables for this specific card
-            card_style = f"""
+            # CSS for each card
+            st.markdown(f"""
             <style>
-                .card-{i+j} {{
-                    --card-color: {model['color']};
-                    --card-color-dark: {model['color_dark']};
-                }}
+            .card-{i+j} {{
+                --card-color: {model['color']};
+                --card-color-dark: {model['color_dark']};
+            }}
             </style>
-            """
-            st.markdown(card_style, unsafe_allow_html=True)
-            
+            """, unsafe_allow_html=True)
+
             st.markdown(
                 f"""
                 <div class='model-card card-{i+j}'>
@@ -271,18 +209,15 @@ for i in range(0, len(models), cols_per_row):
                 """,
                 unsafe_allow_html=True
             )
-            
-            # Custom styled button for launching models
-            if st.button(
-                "🚀 Launch Model", 
-                key=f"btn_{i+j}",
-                use_container_width=True
-            ):
-                st.switch_page(model["page"])
 
+            # Launch model button
+            if st.button("🚀 Launch Model", key=f"btn_{i+j}", use_container_width=True):
+                st.query_params.update({"page": [model["page"]]})
+
+# -------------------------------
+# Footer / Dashboard Analytics
+# -------------------------------
 st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
-
-# Footer information with dashboard style
 st.markdown("""
 <div class="info-box">
     <div style="display: flex; align-items: flex-start; gap: 15px;">
@@ -300,23 +235,34 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Quick Actions Sidebar
+# -------------------------------
+# Professional Sidebar Navigation
+# -------------------------------
 with st.sidebar:
-    st.markdown("## 🔧 Quick Actions")
+    st.title("🏥 Navigation")
+    page_selection = st.radio("Select Page", [
+        "Home",
+        "Malaria",
+        "Brain Scan",
+        "Brain Cancer Scan",
+        "Tuberculosis",
+        "Tuberculosis Symptom Detector",
+        "COVID-19 Detector"
+    ])
+
     st.markdown("---")
-    
-    st.markdown("### Recent Activity")
-    st.info("""
-    **Last Login:** Today, 14:32  
-    **Models Used:** 3  
-    **Active Sessions:** 1
-    """)
-    
-    st.markdown("### Support")
-    st.button("🆘 Emergency Support")
-    st.button("📚 Documentation")
-    st.button("🔄 System Status")
-    
-    st.markdown("---")
-    st.markdown("**Version:** 2.4.1")
-    st.markdown("**Last Updated:** Dec 2024")
+    st.write(f"📌 Current: **{page_selection}**")
+
+    # Map selection to pages
+    page_map = {
+        "Home": None,
+        "Malaria": "pages/1_Malaria.py",
+        "Brain Scan": "pages/2_Brain.py",
+        "Brain Cancer Scan": "pages/3_BreastCancer.py",
+        "Tuberculosis": "pages/4_TB.py",
+        "Tuberculosis Symptom Detector": "pages/5_TBSymptoms.py",
+        "COVID-19 Detector": "pages/6_Covid.py"
+    }
+
+    if page_map[page_selection]:
+        st.query_params.update({"page": [page_map[page_selection]]})

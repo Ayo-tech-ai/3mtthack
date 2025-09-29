@@ -43,7 +43,7 @@ uploaded_file = st.file_uploader("Choose a chest X-ray image...", type=["jpg", "
 if uploaded_file is not None:
     # Load and display the image
     image = Image.open(uploaded_file).convert("RGB")
-    st.image(image, caption="Uploaded X-ray", use_column_width=True)
+    st.image(image, caption="Uploaded X-ray", use_container_width=True)
 
     # Preprocess image
     IMG_SIZE = (224, 224)

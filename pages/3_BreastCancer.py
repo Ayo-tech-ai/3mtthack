@@ -12,7 +12,7 @@ st.write("Enter patient metrics to predict whether the tumor is Malignant or Ben
 # -------------------------------
 @st.cache_resource
 def load_model_scaler():
-    model_path = os.path.join(os.path.dirname(__file__), "../models/rf_breast_top10.joblib")
+    model_path = os.path.join(os.path.dirname(__file__), "../models/rf_breast_top10(1).joblib")
     scaler_path = os.path.join(os.path.dirname(__file__), "../models/scaler_top10.joblib")
     
     if not os.path.exists(model_path) or not os.path.exists(scaler_path):

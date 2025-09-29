@@ -1,62 +1,53 @@
 import streamlit as st
 
-# -------------------------------
-# Page config
-# -------------------------------
-st.set_page_config(
-    page_title="🏥 AI Health Assistant",
-    layout="wide"
-)
+st.set_page_config(page_title="🏥 AI Health Assistant", layout="wide")
 
-# -------------------------------
-# App title and introduction
-# -------------------------------
+# App title and intro
 st.title("🏥 AI Health Assistant")
-st.markdown("""
-Welcome to the **AI Health Assistant**!  
-This app assists healthcare professionals—doctors, nurses, and caregivers—in making faster, more accurate diagnoses using AI-powered models.
+st.write("""
+Welcome to the AI Health Assistant!  
+This app is designed to assist healthcare professionals—doctors, nurses, caregivers—with AI-powered predictions to speed up diagnosis and improve accuracy.  
+Select a condition below to start your prediction.
 """)
-st.markdown("---")
 
-# -------------------------------
-# Models info: page, label, icon, description
-# -------------------------------
+st.markdown("---")
+st.subheader("Available Models")
+
+# Define models: label, description, page path
 models = [
     {
-        "page": "pages/1_Malaria.py",
         "label": "🦟 Malaria Prediction",
-        "desc": "Predict malaria risk based on patient symptoms and clinical data."
+        "desc": "Quickly predict Malaria from patient data.",
+        "page": "pages/1_Malaria.py"
     },
     {
-        "page": "pages/2_Brain.py",
         "label": "🧠 Brain Abnormalities Detection",
-        "desc": "Detect possible brain abnormalities from MRI or CT scans quickly."
+        "desc": "Detect brain abnormalities from medical images.",
+        "page": "pages/2_Brain.py"
     },
     {
-        "page": "pages/3_BreastCancer.py",
         "label": "🎀 Breast Cancer Prediction",
-        "desc": "Predict tumor malignancy based on patient metrics with high accuracy."
+        "desc": "Predict if a tumor is Malignant or Benign.",
+        "page": "pages/3_BreastCancer.py"
     },
     {
-        "page": "pages/4_TB.py",
         "label": "🫁 Tuberculosis Prediction",
-        "desc": "Screen for TB using patient clinical details and AI-assisted diagnosis."
+        "desc": "Predict TB presence from patient X-ray and symptoms.",
+        "page": "pages/4_TB.py"
     },
     {
-        "page": "pages/5_TBSymptoms.py",
         "label": "🫁 TB Diagnosis",
-        "desc": "Detailed TB symptom analysis to support quick clinical decisions."
+        "desc": "Assist diagnosis based on symptoms and patient metrics.",
+        "page": "pages/5_TBSymptoms.py"
     },
     {
-        "page": "pages/6_Covid.py",
         "label": "🫁 Covid Image Detection",
-        "desc": "Detect COVID-19 infections from X-ray or CT images efficiently."
-    },
+        "desc": "Detect Covid from chest X-ray images.",
+        "page": "pages/6_Covid.py"
+    }
 ]
 
-# -------------------------------
-# Display models in "cards"
-# -------------------------------
+# Display in two rows of three columns
 cols_per_row = 3
 for i in range(0, len(models), cols_per_row):
     cols = st.columns(cols_per_row)
@@ -65,30 +56,21 @@ for i in range(0, len(models), cols_per_row):
             st.markdown(
                 f"""
                 <div style='
-                    padding: 15px; 
-                    border-radius: 10px; 
-                    background-color: #f0f2f6; 
-                    box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+                    padding: 20px; 
+                    border-radius: 15px; 
+                    background-color: #f5f5f5; 
+                    box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
                     text-align: center;
-                    margin-bottom: 15px;
+                    margin-bottom: 20px;
                 '>
                     <h3>{model['label']}</h3>
                     <p style='font-size:14px; color:#333;'>{model['desc']}</p>
-                    <a href="{model['page']}" style='
-                        text-decoration:none; 
-                        color:white; 
-                        background-color:#4B7BEC; 
-                        padding:8px 15px; 
-                        border-radius:5px;
-                        display:inline-block;
-                        margin-top:10px;
-                    '>➡️ Go to Model</a>
                 </div>
-                """, unsafe_allow_html=True
+                """,
+                unsafe_allow_html=True
             )
+            # Proper multi-page navigation
+            st.page_link(model["page"], label="➡️ Go to Model")
 
-# -------------------------------
-# Footer info
-# -------------------------------
 st.markdown("---")
-st.info("ℹ️ More models will be added soon. This app is continuously updated to assist caregivers and healthcare professionals.")
+st.info("ℹ️ More models will be added soon. Stay tuned!")

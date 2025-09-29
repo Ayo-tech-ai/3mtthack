@@ -7,29 +7,22 @@ st.title("🫁 Tuberculosis Prediction")
 st.write("Enter patient details to predict whether they have TB or are Normal.")
 
 # -------------------------------
-# Load model, scaler, and encoders
+# Load model and scaler
 # -------------------------------
 @st.cache_resource
-def load_model_resources():
+def load_model_scaler():
     model_path = os.path.join("models", "rf_tb_top.joblib")
-    scaler_path = os.path.join("models", "scaler_tb_top.joblib")
-    encoder_path = os.path.join("models", "tb_label_encoders.joblib")  # saved dict of LabelEncoders
-
+    scaler_path = os.path.join("models", "scaler_tb_top (1).joblib")
+    
     if not os.path.exists(model_path) or not os.path.exists(scaler_path):
         st.error("Model or scaler files not found in the models folder!")
-        return None, None, None
+        return None, None
 
     model = joblib.load(model_path)
     scaler = joblib.load(scaler_path)
-    
-    # Optional: load encoders if you saved them during training
-    encoders = {}
-    if os.path.exists(encoder_path):
-        encoders = joblib.load(encoder_path)
+    return model, scaler
 
-    return model, scaler, encoders
-
-model, scaler, encoders = load_model_resources()
+model, scaler = load_model_scaler()
 if model is None:
     st.stop()
 
@@ -43,7 +36,6 @@ feature_names = [
     "Blood_in_Sputum", "Smoking_History", "Previous_TB_History"
 ]
 
-# Define which features are categorical
 categorical_features = [
     "Gender", "Chest_Pain", "Fever", "Night_Sweats",
     "Sputum_Production", "Blood_in_Sputum", "Smoking_History",
@@ -53,7 +45,6 @@ categorical_features = [
 input_data = {}
 for feature in feature_names:
     if feature in categorical_features:
-        # Use integer input for encoded categories
         input_data[feature] = st.sidebar.number_input(f"{feature} (encoded)", min_value=0, step=1)
     else:
         input_data[feature] = st.sidebar.number_input(f"{feature}", min_value=0.0, step=0.01)
@@ -61,9 +52,7 @@ for feature in feature_names:
 # -------------------------------
 # Prepare input DataFrame
 # -------------------------------
-# Ensure correct order matching scaler training
-scaler_features = feature_names
-input_df = pd.DataFrame([input_data])[scaler_features]
+input_df = pd.DataFrame([input_data])[feature_names]
 
 # -------------------------------
 # Scale input

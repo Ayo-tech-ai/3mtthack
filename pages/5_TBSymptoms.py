@@ -1,6 +1,5 @@
 import streamlit as st
 import joblib
-import numpy as np
 import pandas as pd
 import os
 
@@ -8,27 +7,20 @@ st.title("🫁 Tuberculosis Prediction")
 st.write("Enter patient details to predict whether they have TB or are Normal.")
 
 # -------------------------------
-# Load model and scaler
+# ✅ Load your saved model and scaler from the models/ folder
 # -------------------------------
-@st.cache_resource
-def load_model_scaler():
-    model_path = os.path.join(os.path.dirname(__file__), "../models/rf_tb_top.joblib")
-    scaler_path = os.path.join(os.path.dirname(__file__), "../models/scaler_tb_top.joblib")
-    
-    if not os.path.exists(model_path) or not os.path.exists(scaler_path):
-        st.error("Model or scaler files not found in the models folder!")
-        return None, None
+model_path = os.path.join("models", "rf_tb_top.joblib")
+scaler_path = os.path.join("models", "scaler_tb_top (1).joblib")
 
-    model = joblib.load(model_path)
-    scaler = joblib.load(scaler_path)
-    return model, scaler
-
-model, scaler = load_model_scaler()
-if model is None:
+if not os.path.exists(model_path) or not os.path.exists(scaler_path):
+    st.error("Model or scaler files not found in the models folder!")
     st.stop()
 
+model = joblib.load(model_path)
+scaler = joblib.load(scaler_path)
+
 # -------------------------------
-# User input
+# Sidebar: User input
 # -------------------------------
 st.sidebar.header("Patient Details Input")
 features = [
@@ -47,7 +39,7 @@ for feature in features:
     else:
         input_data[feature] = st.sidebar.number_input(f"{feature}", min_value=0.0, step=0.01)
 
-# Convert to DataFrame
+# Convert to DataFrame and scale
 input_df = pd.DataFrame([input_data])
 input_scaled = scaler.transform(input_df)
 
@@ -57,7 +49,7 @@ input_scaled = scaler.transform(input_df)
 if st.button("Predict"):
     pred = model.predict(input_scaled)[0]
     pred_proba = model.predict_proba(input_scaled)[0][pred]
-    
+
     label = "Tuberculosis" if pred == 1 else "Normal"
     st.markdown(f"### Prediction: **{label}**")
     st.markdown(f"Confidence: **{pred_proba*100:.2f}%**")

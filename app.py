@@ -1,19 +1,5 @@
-import streamlit as st
-
 # -------------------------------
-# Hide Streamlit default menu and footer
-# -------------------------------
-hide_streamlit_style = """
-    <style>
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
-    </style>
-"""
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-
-# -------------------------------
-# Professional Navigation Sidebar
+# Professional Navigation Sidebar (with st.query_params)
 # -------------------------------
 st.sidebar.title("🏥 AI Health Assistant")
 st.sidebar.subheader("Professional Navigation")
@@ -32,21 +18,21 @@ page = st.sidebar.radio("Go to:", [
 st.sidebar.markdown("---")
 st.sidebar.write(f"📌 Current: **{page}**")
 
-# Optional: Map selection to your pages if using multiple pages
+# Map selection to your pages using st.query_params
 if page == "Home":
-    pass  # Already in homepage
+    st.experimental_set_query_params(page=None)  # Reset to homepage
 elif page == "Malaria":
-    st.experimental_set_query_params(page="pages/1_Malaria.py")
+    st.query_params.update({"page": ["pages/1_Malaria.py"]})
 elif page == "Brain Scan":
-    st.experimental_set_query_params(page="pages/2_Brain.py")
+    st.query_params.update({"page": ["pages/2_Brain.py"]})
 elif page == "Brain Cancer Scan":
-    st.experimental_set_query_params(page="pages/3_BreastCancer.py")
+    st.query_params.update({"page": ["pages/3_BreastCancer.py"]})
 elif page == "Tuberculosis":
-    st.experimental_set_query_params(page="pages/4_TB.py")
+    st.query_params.update({"page": ["pages/4_TB.py"]})
 elif page == "Tuberculosis Symptom Detector":
-    st.experimental_set_query_params(page="pages/5_TBSymptoms.py")
+    st.query_params.update({"page": ["pages/5_TBSymptoms.py"]})
 elif page == "COVID-19 Detector":
-    st.experimental_set_query_params(page="pages/6_Covid.py")
+    st.query_params.update({"page": ["pages/6_Covid.py"]})
 
 st.set_page_config(
     page_title="🏥 AI Health Assistant", 

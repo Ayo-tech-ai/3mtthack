@@ -1,3 +1,4 @@
+# 5_TBSymptoms.py
 import streamlit as st
 import joblib
 import pandas as pd
@@ -7,65 +8,69 @@ st.title("🫁 Tuberculosis Prediction")
 st.write("Enter patient details to predict whether they have TB or are Normal.")
 
 # -------------------------------
-# Load model and scaler
+# Load model, scaler, and label encoders
 # -------------------------------
-@st.cache_resource
-def load_model_scaler():
-    model_path = os.path.join("models", "rf_tb_top.joblib")
-    scaler_path = os.path.join("models", "scaler_tb_top (1).joblib")
-    
-    if not os.path.exists(model_path) or not os.path.exists(scaler_path):
-        st.error("Model or scaler files not found in the models folder!")
-        return None, None
+model_path = os.path.join("models", "rf_tb_top.joblib")
+scaler_path = os.path.join("models", "scaler_tb_top.joblib")
+encoders_path = os.path.join("models", "tb_label_encoders.joblib")
 
-    model = joblib.load(model_path)
-    scaler = joblib.load(scaler_path)
-    return model, scaler
-
-model, scaler = load_model_scaler()
-if model is None:
+if not all(os.path.exists(p) for p in [model_path, scaler_path, encoders_path]):
+    st.error("One or more required files (model, scaler, encoders) are missing in the models folder!")
     st.stop()
 
+model = joblib.load(model_path)
+scaler = joblib.load(scaler_path)
+label_encoders = joblib.load(encoders_path)
+
 # -------------------------------
-# Feature inputs
+# Sidebar: User input
 # -------------------------------
 st.sidebar.header("Patient Details Input")
-feature_names = [
+features = [
     "Age", "Gender", "Chest_Pain", "Cough_Severity", "Breathlessness",
     "Fatigue", "Weight_Loss", "Fever", "Night_Sweats", "Sputum_Production",
     "Blood_in_Sputum", "Smoking_History", "Previous_TB_History"
 ]
 
 categorical_features = [
-    "Gender", "Chest_Pain", "Fever", "Night_Sweats",
-    "Sputum_Production", "Blood_in_Sputum", "Smoking_History",
-    "Previous_TB_History"
+    "Gender", "Chest_Pain", "Fever", "Night_Sweats", 
+    "Sputum_Production", "Blood_in_Sputum", 
+    "Smoking_History", "Previous_TB_History"
 ]
 
 input_data = {}
-for feature in feature_names:
+
+for feature in features:
     if feature in categorical_features:
-        input_data[feature] = st.sidebar.number_input(f"{feature} (encoded)", min_value=0, step=1)
+        # Dropdown with human-readable labels
+        input_data[feature] = st.sidebar.selectbox(
+            f"{feature}", options=list(label_encoders[feature].classes_)
+        )
     else:
-        input_data[feature] = st.sidebar.number_input(f"{feature}", min_value=0.0, step=0.01)
+        input_data[feature] = st.sidebar.number_input(feature, min_value=0.0, step=0.01)
 
-# -------------------------------
-# Prepare input DataFrame
-# -------------------------------
-input_df = pd.DataFrame([input_data])[feature_names]
+# Convert input to DataFrame
+input_df = pd.DataFrame([input_data])
 
-# -------------------------------
-# Scale input
-# -------------------------------
-input_scaled = scaler.transform(input_df)
+# Encode categorical features dynamically
+for feature in categorical_features:
+    le = label_encoders[feature]
+    input_df[feature] = le.transform(input_df[feature])
+
+# Apply scaler only to numeric columns (as in notebook)
+numeric_cols = ["Age", "Cough_Severity", "Breathlessness", "Fatigue", "Weight_Loss"]
+input_df[numeric_cols] = scaler.transform(input_df[numeric_cols])
 
 # -------------------------------
 # Prediction
 # -------------------------------
 if st.button("Predict"):
-    pred = model.predict(input_scaled)[0]
-    pred_proba = model.predict_proba(input_scaled)[0][pred]
-
-    label = "Tuberculosis" if pred == 1 else "Normal"
+    pred = model.predict(input_df)[0]
+    pred_proba = model.predict_proba(input_df)[0][pred]
+    
+    # Decode target label
+    class_le = label_encoders["Class"]
+    label = class_le.inverse_transform([pred])[0]
+    
     st.markdown(f"### Prediction: **{label}**")
     st.markdown(f"Confidence: **{pred_proba*100:.2f}%**")

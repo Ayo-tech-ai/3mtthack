@@ -37,6 +37,7 @@ st.markdown("""
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        margin-bottom: 1.5rem;
     }
     
     .feature-card:hover {
@@ -104,6 +105,10 @@ st.markdown("""
         text-align: center;
         margin-top: 2rem;
     }
+    
+    .models-grid {
+        margin-bottom: 2rem;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -129,53 +134,55 @@ st.markdown("""
 # Models Grid Section
 st.markdown('<div class="section-title">🔬 Available Diagnostic Models</div>', unsafe_allow_html=True)
 
-# Define models with enhanced styling
+# Define models with enhanced styling - USING THE ORIGINAL PATHS
 models = [
     {
-        "label": "🦟 Malaria Detection", 
-        "desc": "Advanced prediction of Malaria from comprehensive patient data analysis", 
+        "label": "🦟 Malaria Prediction", 
+        "desc": "Quickly predict Malaria from patient data.", 
         "page": "pages/1_Malaria.py", 
         "color": "#FFEBEE",
         "icon": "🦟"
     },
     {
-        "label": "🧠 Brain Analysis", 
-        "desc": "Detect neurological abnormalities and conditions from medical imaging", 
+        "label": "🧠 Brain Abnormalities Detection", 
+        "desc": "Detect brain abnormalities from medical images.", 
         "page": "pages/2_Brain.py", 
         "color": "#F3E5F5",
         "icon": "🧠"
     },
     {
-        "label": "🎀 Breast Cancer Assessment", 
-        "desc": "AI-powered classification of tumors with detailed risk analysis", 
+        "label": "🎀 Breast Cancer Prediction", 
+        "desc": "Predict if a tumor is Malignant or Benign.", 
         "page": "pages/3_BreastCancer.py", 
         "color": "#FCE4EC",
         "icon": "🎀"
     },
     {
-        "label": "🫁 Tuberculosis Screening", 
-        "desc": "Comprehensive TB prediction from X-ray analysis and symptom assessment", 
+        "label": "🫁 Tuberculosis Prediction", 
+        "desc": "Predict TB presence from patient X-ray and symptoms.", 
         "page": "pages/4_TB.py", 
         "color": "#E1F5FE",
         "icon": "🫁"
     },
     {
-        "label": "📊 TB Symptom Analysis", 
-        "desc": "Diagnostic assistance based on symptoms and patient health metrics", 
+        "label": "🫁 TB Diagnosis", 
+        "desc": "Assist diagnosis based on symptoms and patient metrics.", 
         "page": "pages/5_TBSymptoms.py", 
         "color": "#E8F5E8",
         "icon": "📊"
     },
     {
-        "label": "🦠 COVID-19 Detection", 
-        "desc": "Rapid identification of COVID-19 from chest X-ray imaging", 
+        "label": "🫁 Covid Image Detection", 
+        "desc": "Detect Covid from chest X-ray images.", 
         "page": "pages/6_Covid.py", 
         "color": "#FFF3E0",
         "icon": "🦠"
     }
 ]
 
-# Create responsive grid layout
+# Create responsive grid layout with proper spacing
+st.markdown('<div class="models-grid">', unsafe_allow_html=True)
+
 cols_per_row = 3
 for i in range(0, len(models), cols_per_row):
     cols = st.columns(cols_per_row, gap="large")
@@ -191,7 +198,7 @@ for i in range(0, len(models), cols_per_row):
                     </div>
                     <div style="margin-top: 1rem;">
                         <a href='{model["page"]}' class="cta-button">
-                            🚀 Launch Analysis
+                            ➡️ Go to Model
                         </a>
                     </div>
                 </div>
@@ -199,14 +206,15 @@ for i in range(0, len(models), cols_per_row):
                 unsafe_allow_html=True
             )
 
+st.markdown('</div>', unsafe_allow_html=True)
+
 # Footer Section
 st.markdown("---")
 st.markdown("""
 <div class="coming-soon">
-    <h4 style="margin:0 0 0.5rem 0; color:#333;">🔮 Coming Soon</h4>
+    <h4 style="margin:0 0 0.5rem 0; color:#333;">ℹ️ More Models Coming Soon</h4>
     <p style="margin:0; color:#666;">
-        We're continuously expanding our diagnostic capabilities. More specialized models 
-        will be available soon to support your medical practice.
+        More models will be added soon. Stay tuned for updates!
     </p>
 </div>
 """, unsafe_allow_html=True)
@@ -215,7 +223,7 @@ st.markdown("""
 st.markdown("""
 <div style="text-align: center; margin-top: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
     <small style="color: #666;">
-        🔒 <strong>HIPAA Compliant</strong> • All patient data is encrypted and securely processed
+        🔒 <strong>Secure & Confidential</strong> • All data is processed with privacy in mind
     </small>
 </div>
 """, unsafe_allow_html=True)

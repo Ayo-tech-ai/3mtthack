@@ -128,29 +128,18 @@ st.markdown("""
         text-align: center;
     }
     .developer-card {
-        background: #f3f4f6;
+        background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+        border: 1px solid #d1d5db;
         border-radius: 12px;
-        padding: 20px;
+        padding: 15px;
         margin-top: 1rem;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        font-size: 0.95rem;
-        color: #1f2937;
-    }
-    .developer-card strong {
-        font-size: 1rem;
-        color: #111827;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# App header with dashboard style
+# App header
 st.markdown('<div class="main-header">🏥 AI Community Health Assistant</div>', unsafe_allow_html=True)
-
-st.markdown("""
-<div class="sub-header">
-Advanced Clinical Intelligence Platform • Powered by AI Diagnostics
-</div>
-""", unsafe_allow_html=True)
+st.markdown('<div class="sub-header">Advanced Clinical Intelligence Platform • Powered by AI Diagnostics</div>', unsafe_allow_html=True)
 
 # Dashboard Statistics
 st.markdown("""
@@ -176,9 +165,10 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+# Section title
 st.markdown('<div class="section-title">🩺 Clinical Prediction Models</div>', unsafe_allow_html=True)
 
-# Define models with specific colors for the gradient
+# Model cards
 models = [
     {"label": "🦟 Malaria Detection", "desc": "Rapid malaria prediction from blood smear analysis and patient data", "page": "pages/1_Malaria.py", "color": "#dc2626", "color_dark": "#991b1b"},
     {"label": "🧠 Neuro Imaging Analysis", "desc": "Advanced detection of brain abnormalities from medical imaging", "page": "pages/2_Brain.py", "color": "#7c3aed", "color_dark": "#5b21b6"},
@@ -188,7 +178,6 @@ models = [
     {"label": "🦠 COVID-19 Detection", "desc": "Automated COVID-19 identification from chest radiographs", "page": "pages/6_Covid.py", "color": "#059669", "color_dark": "#047857"}
 ]
 
-# Display models in responsive grid with enhanced launch buttons
 cols_per_row = 3
 for i in range(0, len(models), cols_per_row):
     cols = st.columns(cols_per_row)
@@ -203,21 +192,22 @@ for i in range(0, len(models), cols_per_row):
             </style>
             """
             st.markdown(card_style, unsafe_allow_html=True)
+            
             st.markdown(
                 f"""
                 <div class='model-card card-{i+j}'>
                     <div class='model-title'>{model['label']}</div>
                     <div class='model-desc'>{model['desc']}</div>
                 </div>
-                """,
-                unsafe_allow_html=True
+                """, unsafe_allow_html=True
             )
+            
             if st.button("🚀 Launch Model", key=f"btn_{i+j}", use_container_width=True):
                 st.switch_page(model["page"])
 
 st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
-# Footer information with dashboard style
+# Footer info box
 st.markdown("""
 <div class="info-box">
     <div style="display: flex; align-items: flex-start; gap: 15px;">
@@ -235,15 +225,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# -------------------------------
-# Bottom Like Button
-# -------------------------------
-if st.button("👍 Like"):
-    st.success("Thank you for your support!")
-
-# -------------------------------
-# Quick Actions Sidebar
-# -------------------------------
+# Sidebar
 with st.sidebar:
     st.markdown("## 🔧 Quick Actions")
     st.markdown("---")
@@ -264,9 +246,7 @@ with st.sidebar:
     st.markdown("**Version:** 2.4.1")
     st.markdown("**Last Updated:** Dec 2024")
     
-    # -------------------------------
-    # Developer Info Card
-    # -------------------------------
+    # Developer Info
     st.markdown('<div class="developer-card">', unsafe_allow_html=True)
     st.markdown("""
     <strong>👨‍💻 Developed by DeepTech Fellows</strong><br><br>
@@ -280,3 +260,17 @@ with st.sidebar:
     Email: clementinaokocheamara@gmail.com
     """, unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
+
+    # Hackathon Disclaimer
+    st.markdown('<div class="developer-card">', unsafe_allow_html=True)
+    st.markdown("""
+    <strong>⚠️ Hackathon Disclaimer</strong><br><br>
+    • This AI-powered solution is built for hackathon purposes only and is <strong>not a real-life medical application</strong>.<br>
+    • AI predictions may be <strong>inaccurate or incomplete</strong>. Healthcare professionals should not rely solely on this tool.<br>
+    • Combine AI outputs with your clinical knowledge to make better-informed decisions.
+    """, unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+# Bottom Like button
+if st.button("👍 Like"):
+    st.success("Thank you for your support!")

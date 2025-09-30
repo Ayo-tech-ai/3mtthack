@@ -66,7 +66,7 @@ col1, col2 = st.columns([2,1])
 with col1:
     if uploaded_file:
         image = Image.open(uploaded_file).convert("RGB")
-        st.image(image, caption="Uploaded Image", use_column_width=True)
+        st.image(image, caption="Uploaded Image", use_container_width=True)
 
 # -------------------------------
 # Analyze Image button
@@ -103,15 +103,3 @@ with col2:
         st.subheader("Clinical Interpretation")
         st.write(class_descriptions[predicted_class])
         st.markdown('</div>', unsafe_allow_html=True)
-
-# -------------------------------
-# Like button
-# -------------------------------
-if st.button("Like"):
-    st.success("Thanks for your support!")
-
-# -------------------------------
-# Footer
-# -------------------------------
-st.markdown("---")
-st.markdown("This tool is for educational purposes only and not a substitute for professional medical advice.")

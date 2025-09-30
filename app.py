@@ -6,9 +6,7 @@ st.set_page_config(
     page_icon="🏥"
 )
 
-# -------------------------------
 # Custom CSS for professional dashboard styling
-# -------------------------------
 st.markdown("""
 <style>
     .main-header {
@@ -105,120 +103,128 @@ st.markdown("""
         padding: 25px;
         margin-top: 2rem;
     }
+    .stats-container {
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
+    }
+    .stat-item {
+        padding: 0 15px;
+    }
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 5px;
+    }
+    .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+    .section-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin: 2rem 0 1.5rem 0;
+        text-align: center;
+    }
+    .developer-card {
+        background: #f3f4f6;
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 1rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        font-size: 0.95rem;
+        color: #1f2937;
+    }
+    .developer-card strong {
+        font-size: 1rem;
+        color: #111827;
+    }
 </style>
 """, unsafe_allow_html=True)
 
-# -------------------------------
-# Top Like Button
-# -------------------------------
-st.markdown("""
-<div style="text-align:center; margin: 15px 0;">
-    <button style="background-color:#0a3d62; color:white; padding:10px 25px; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">
-        👍 Like
-    </button>
-</div>
-""", unsafe_allow_html=True)
-
-# -------------------------------
-# App header with medical phrasing
-# -------------------------------
+# App header with dashboard style
 st.markdown('<div class="main-header">🏥 AI Community Health Assistant</div>', unsafe_allow_html=True)
 
 st.markdown("""
 <div class="sub-header">
-Advanced Clinical Intelligence Platform • Powered by AI Diagnostics and Evidence-based Analytics
+Advanced Clinical Intelligence Platform • Powered by AI Diagnostics
 </div>
 """, unsafe_allow_html=True)
 
-# -------------------------------
-# Hackathon disclaimer
-# -------------------------------
-st.markdown("""
-<div style="background-color:#fffbeb; border-left: 5px solid #facc15; padding:15px; border-radius:8px; margin-bottom:20px;">
-    ⚠️ <strong>Disclaimer:</strong> This platform was built for hackathon purposes only. It is <strong>not a real-life medical AI system</strong>. AI predictions may sometimes be incorrect. Healthcare professionals should <strong>combine these results with their clinical knowledge</strong> to make informed diagnostic decisions.
-</div>
-""", unsafe_allow_html=True)
-
-# -------------------------------
 # Dashboard Statistics
-# -------------------------------
 st.markdown("""
 <div class="dashboard-stats">
-    <div style="display: flex; justify-content: space-around; text-align: center;">
-        <div>
-            <div style="font-size:2.5rem; font-weight:800;">6</div>
-            <div style="opacity:0.9;">Active Models</div>
+    <div class="stats-container">
+        <div class="stat-item">
+            <div class="stat-number">6</div>
+            <div class="stat-label">Active Models</div>
         </div>
-        <div>
-            <div style="font-size:2.5rem; font-weight:800;">99.2%</div>
-            <div style="opacity:0.9;">Avg. Accuracy</div>
+        <div class="stat-item">
+            <div class="stat-number">99.2%</div>
+            <div class="stat-label">Avg. Accuracy</div>
         </div>
-        <div>
-            <div style="font-size:2.5rem; font-weight:800;">24/7</div>
-            <div style="opacity:0.9;">Availability</div>
+        <div class="stat-item">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Availability</div>
         </div>
-        <div>
-            <div style="font-size:2.5rem; font-weight:800;">⚡</div>
-            <div style="opacity:0.9;">Real-time Analysis</div>
+        <div class="stat-item">
+            <div class="stat-number">⚡</div>
+            <div class="stat-label">Real-time Analysis</div>
         </div>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# -------------------------------
-# Section title
-# -------------------------------
-st.markdown('<div style="font-size:1.8rem; font-weight:700; text-align:center; margin:2rem 0 1.5rem 0;">🩺 Clinical Prediction Models</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-title">🩺 Clinical Prediction Models</div>', unsafe_allow_html=True)
 
-# -------------------------------
-# Model Cards
-# -------------------------------
+# Define models with specific colors for the gradient
 models = [
-    {"label":"🦟 Malaria Detection", "desc":"Rapid malaria prediction from blood smear analysis and patient data","page":"pages/1_Malaria.py","color":"#dc2626","color_dark":"#991b1b"},
-    {"label":"🧠 Neuro Imaging Analysis", "desc":"Advanced detection of brain abnormalities from medical imaging","page":"pages/2_Brain.py","color":"#7c3aed","color_dark":"#5b21b6"},
-    {"label":"🎀 Breast Cancer Assessment", "desc":"Comprehensive tumor analysis for malignancy classification","page":"pages/3_BreastCancer.py","color":"#db2777","color_dark":"#9d174d"},
-    {"label":"🫁 Tuberculosis Screening", "desc":"AI-powered TB detection from chest X-ray imaging","page":"pages/4_TB.py","color":"#ea580c","color_dark":"#9a3412"},
-    {"label":"📊 TB Symptom Analysis", "desc":"Clinical diagnosis support based on symptoms and patient metrics","page":"pages/5_TBSymptoms.py","color":"#d97706","color_dark":"#92400e"},
-    {"label":"🦠 COVID-19 Detection", "desc":"Automated COVID-19 identification from chest radiographs","page":"pages/6_Covid.py","color":"#059669","color_dark":"#047857"}
+    {"label": "🦟 Malaria Detection", "desc": "Rapid malaria prediction from blood smear analysis and patient data", "page": "pages/1_Malaria.py", "color": "#dc2626", "color_dark": "#991b1b"},
+    {"label": "🧠 Neuro Imaging Analysis", "desc": "Advanced detection of brain abnormalities from medical imaging", "page": "pages/2_Brain.py", "color": "#7c3aed", "color_dark": "#5b21b6"},
+    {"label": "🎀 Breast Cancer Assessment", "desc": "Comprehensive tumor analysis for malignancy classification", "page": "pages/3_BreastCancer.py", "color": "#db2777", "color_dark": "#9d174d"},
+    {"label": "🫁 Tuberculosis Screening", "desc": "AI-powered TB detection from chest X-ray imaging", "page": "pages/4_TB.py", "color": "#ea580c", "color_dark": "#9a3412"},
+    {"label": "📊 TB Symptom Analysis", "desc": "Clinical diagnosis support based on symptoms and patient metrics", "page": "pages/5_TBSymptoms.py", "color": "#d97706", "color_dark": "#92400e"},
+    {"label": "🦠 COVID-19 Detection", "desc": "Automated COVID-19 identification from chest radiographs", "page": "pages/6_Covid.py", "color": "#059669", "color_dark": "#047857"}
 ]
 
+# Display models in responsive grid with enhanced launch buttons
 cols_per_row = 3
 for i in range(0, len(models), cols_per_row):
     cols = st.columns(cols_per_row)
     for j, model in enumerate(models[i:i+cols_per_row]):
         with cols[j]:
-            st.markdown(f"""
+            card_style = f"""
             <style>
                 .card-{i+j} {{
                     --card-color: {model['color']};
                     --card-color-dark: {model['color_dark']};
                 }}
             </style>
-            """, unsafe_allow_html=True)
-            st.markdown(f"""
+            """
+            st.markdown(card_style, unsafe_allow_html=True)
+            st.markdown(
+                f"""
                 <div class='model-card card-{i+j}'>
                     <div class='model-title'>{model['label']}</div>
                     <div class='model-desc'>{model['desc']}</div>
                 </div>
-            """, unsafe_allow_html=True)
+                """,
+                unsafe_allow_html=True
+            )
             if st.button("🚀 Launch Model", key=f"btn_{i+j}", use_container_width=True):
                 st.switch_page(model["page"])
 
-# -------------------------------
-# Divider
-# -------------------------------
-st.markdown('<div style="height:2px; background:linear-gradient(90deg, transparent 0%, #e5e7eb 50%, transparent 100%); margin:2.5rem 0;"></div>', unsafe_allow_html=True)
+st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
-# -------------------------------
-# Info Box
-# -------------------------------
+# Footer information with dashboard style
 st.markdown("""
 <div class="info-box">
-    <div style="display:flex; align-items:flex-start; gap:15px;">
-        <span style="font-size:1.5rem;">📊</span>
+    <div style="display: flex; align-items: flex-start; gap: 15px;">
+        <span style="font-size: 1.5rem;">📊</span>
         <div>
-            <strong style="font-size:1.1rem;">Dashboard Analytics</strong><br>
-            <span style="color:#475569;">
+            <strong style="font-size: 1.1rem;">Dashboard Analytics</strong><br>
+            <span style="color: #475569;">
             • <strong>6 specialized models</strong> deployed and optimized for clinical use<br>
             • <strong>Real-time processing</strong> with average response under 3 seconds<br>
             • <strong>HIPAA compliant</strong> data processing and security protocols<br>
@@ -232,30 +238,45 @@ st.markdown("""
 # -------------------------------
 # Bottom Like Button
 # -------------------------------
-st.markdown("""
-<div style="text-align:center; margin: 25px 0;">
-    <button style="background-color:#0a3d62; color:white; padding:10px 25px; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">
-        👍 Like
-    </button>
-</div>
-""", unsafe_allow_html=True)
+if st.button("👍 Like"):
+    st.success("Thank you for your support!")
 
 # -------------------------------
-# Sidebar
+# Quick Actions Sidebar
 # -------------------------------
 with st.sidebar:
     st.markdown("## 🔧 Quick Actions")
     st.markdown("---")
+    
     st.markdown("### Recent Activity")
     st.info("""
     **Last Login:** Today, 14:32  
     **Models Used:** 3  
     **Active Sessions:** 1
     """)
+    
     st.markdown("### Support")
     st.button("🆘 Emergency Support")
     st.button("📚 Documentation")
     st.button("🔄 System Status")
+    
     st.markdown("---")
     st.markdown("**Version:** 2.4.1")
     st.markdown("**Last Updated:** Dec 2024")
+    
+    # -------------------------------
+    # Developer Info Card
+    # -------------------------------
+    st.markdown('<div class="developer-card">', unsafe_allow_html=True)
+    st.markdown("""
+    <strong>👨‍💻 Developed by DeepTech Fellows</strong><br><br>
+    <strong>1️⃣ AYOOLA Mujib Ayodele</strong><br>
+    Specialisation: Data Science and Machine Learning<br>
+    ID: FE/23/89391170<br>
+    Email: ayodelemujibayoola@gmail.com<br><br>
+    <strong>2️⃣ CLEMENTINA Okoche</strong><br>
+    Specialisation: Advance Data Analysis and Visualisation<br>
+    ID: FE/23/52756062<br>
+    Email: clementinaokocheamara@gmail.com
+    """, unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)

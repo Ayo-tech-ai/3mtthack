@@ -1,14 +1,12 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="🏥 AI Health Assistant",
+    page_title="🏥 AI Health Assistant", 
     layout="wide",
     page_icon="🏥"
 )
 
-# -------------------------------
-# Custom CSS for dashboard and model cards
-# -------------------------------
+# Custom CSS for professional dashboard styling
 st.markdown("""
 <style>
     .main-header {
@@ -132,19 +130,16 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# -------------------------------
-# App header and subheader
-# -------------------------------
+# App header with dashboard style
 st.markdown('<div class="main-header">🏥 AI Health Assistant Dashboard</div>', unsafe_allow_html=True)
+
 st.markdown("""
 <div class="sub-header">
 Advanced Clinical Intelligence Platform • Powered by AI Diagnostics
 </div>
 """, unsafe_allow_html=True)
 
-# -------------------------------
 # Dashboard Statistics
-# -------------------------------
 st.markdown("""
 <div class="dashboard-stats">
     <div class="stats-container">
@@ -170,36 +165,69 @@ st.markdown("""
 
 st.markdown('<div class="section-title">🩺 Clinical Prediction Models</div>', unsafe_allow_html=True)
 
-# -------------------------------
-# Models definition
-# -------------------------------
+# Define models with specific colors for the gradient
 models = [
-    {"label":"🦟 Malaria Detection","desc":"Rapid malaria prediction from blood smear analysis and patient data","page":"pages/1_Malaria.py","color":"#dc2626","color_dark":"#991b1b"},
-    {"label":"🧠 Neuro Imaging Analysis","desc":"Advanced detection of brain abnormalities from medical imaging","page":"pages/2_Brain.py","color":"#7c3aed","color_dark":"#5b21b6"},
-    {"label":"🎀 Breast Cancer Assessment","desc":"Comprehensive tumor analysis for malignancy classification","page":"pages/3_BreastCancer.py","color":"#db2777","color_dark":"#9d174d"},
-    {"label":"🫁 Tuberculosis Screening","desc":"AI-powered TB detection from chest X-ray imaging","page":"pages/4_TB.py","color":"#ea580c","color_dark":"#9a3412"},
-    {"label":"📊 TB Symptom Analysis","desc":"Clinical diagnosis support based on symptoms and patient metrics","page":"pages/5_TBSymptoms.py","color":"#d97706","color_dark":"#92400e"},
-    {"label":"🦠 COVID-19 Detection","desc":"Automated COVID-19 identification from chest radiographs","page":"pages/6_Covid.py","color":"#059669","color_dark":"#047857"}
+    {
+        "label": "🦟 Malaria Detection",
+        "desc": "Rapid malaria prediction from blood smear analysis and patient data",
+        "page": "pages/1_Malaria.py",
+        "color": "#dc2626",
+        "color_dark": "#991b1b"
+    },
+    {
+        "label": "🧠 Neuro Imaging Analysis",
+        "desc": "Advanced detection of brain abnormalities from medical imaging",
+        "page": "pages/2_Brain.py",
+        "color": "#7c3aed",
+        "color_dark": "#5b21b6"
+    },
+    {
+        "label": "🎀 Breast Cancer Assessment",
+        "desc": "Comprehensive tumor analysis for malignancy classification",
+        "page": "pages/3_BreastCancer.py",
+        "color": "#db2777",
+        "color_dark": "#9d174d"
+    },
+    {
+        "label": "🫁 Tuberculosis Screening",
+        "desc": "AI-powered TB detection from chest X-ray imaging",
+        "page": "pages/4_TB.py",
+        "color": "#ea580c",
+        "color_dark": "#9a3412"
+    },
+    {
+        "label": "📊 TB Symptom Analysis",
+        "desc": "Clinical diagnosis support based on symptoms and patient metrics",
+        "page": "pages/5_TBSymptoms.py",
+        "color": "#d97706",
+        "color_dark": "#92400e"
+    },
+    {
+        "label": "🦠 COVID-19 Detection",
+        "desc": "Automated COVID-19 identification from chest radiographs",
+        "page": "pages/6_Covid.py",
+        "color": "#059669",
+        "color_dark": "#047857"
+    }
 ]
 
-# -------------------------------
-# Display models in grid with launch buttons
-# -------------------------------
+# Display models in responsive grid with enhanced launch buttons
 cols_per_row = 3
 for i in range(0, len(models), cols_per_row):
     cols = st.columns(cols_per_row)
     for j, model in enumerate(models[i:i+cols_per_row]):
         with cols[j]:
-            # CSS for each card
-            st.markdown(f"""
+            # Set CSS variables for this specific card
+            card_style = f"""
             <style>
-            .card-{i+j} {{
-                --card-color: {model['color']};
-                --card-color-dark: {model['color_dark']};
-            }}
+                .card-{i+j} {{
+                    --card-color: {model['color']};
+                    --card-color-dark: {model['color_dark']};
+                }}
             </style>
-            """, unsafe_allow_html=True)
-
+            """
+            st.markdown(card_style, unsafe_allow_html=True)
+            
             st.markdown(
                 f"""
                 <div class='model-card card-{i+j}'>
@@ -209,15 +237,18 @@ for i in range(0, len(models), cols_per_row):
                 """,
                 unsafe_allow_html=True
             )
+            
+            # Custom styled button for launching models
+            if st.button(
+                "🚀 Launch Model", 
+                key=f"btn_{i+j}",
+                use_container_width=True
+            ):
+                st.switch_page(model["page"])
 
-            # Launch model button
-            if st.button("🚀 Launch Model", key=f"btn_{i+j}", use_container_width=True):
-                st.query_params.update({"page": [model["page"]]})
-
-# -------------------------------
-# Footer / Dashboard Analytics
-# -------------------------------
 st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+
+# Footer information with dashboard style
 st.markdown("""
 <div class="info-box">
     <div style="display: flex; align-items: flex-start; gap: 15px;">
@@ -235,34 +266,23 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# -------------------------------
-# Professional Sidebar Navigation
-# -------------------------------
+# Quick Actions Sidebar
 with st.sidebar:
-    st.title("🏥 Navigation")
-    page_selection = st.radio("Select Page", [
-        "Home",
-        "Malaria",
-        "Brain Scan",
-        "Brain Cancer Scan",
-        "Tuberculosis",
-        "Tuberculosis Symptom Detector",
-        "COVID-19 Detector"
-    ])
-
+    st.markdown("## 🔧 Quick Actions")
     st.markdown("---")
-    st.write(f"📌 Current: **{page_selection}**")
-
-    # Map selection to pages
-    page_map = {
-        "Home": None,
-        "Malaria": "pages/1_Malaria.py",
-        "Brain Scan": "pages/2_Brain.py",
-        "Brain Cancer Scan": "pages/3_BreastCancer.py",
-        "Tuberculosis": "pages/4_TB.py",
-        "Tuberculosis Symptom Detector": "pages/5_TBSymptoms.py",
-        "COVID-19 Detector": "pages/6_Covid.py"
-    }
-
-    if page_map[page_selection]:
-        st.query_params.update({"page": [page_map[page_selection]]})
+    
+    st.markdown("### Recent Activity")
+    st.info("""
+    **Last Login:** Today, 14:32  
+    **Models Used:** 3  
+    **Active Sessions:** 1
+    """)
+    
+    st.markdown("### Support")
+    st.button("🆘 Emergency Support")
+    st.button("📚 Documentation")
+    st.button("🔄 System Status")
+    
+    st.markdown("---")
+    st.markdown("**Version:** 2.4.1")
+    st.markdown("**Last Updated:** Dec 2024")

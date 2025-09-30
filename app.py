@@ -131,7 +131,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # App header with dashboard style
-st.markdown('<div class="main-header">🏥 AI Health Assistant Dashboard</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-header">🏥 AI Community Health Assistant</div>', unsafe_allow_html=True)
 
 st.markdown("""
 <div class="sub-header">

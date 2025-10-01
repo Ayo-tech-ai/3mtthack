@@ -168,6 +168,9 @@ st.markdown("""
 # Section title
 st.markdown('<div class="section-title">🩺 Clinical Prediction Models</div>', unsafe_allow_html=True)
 
+# 🔴 Instruction in red
+st.markdown('<p style="color:red; text-align:center; font-weight:bold;">To access each of the models, click on the Launch Model button.</p>', unsafe_allow_html=True)
+
 # Model cards
 models = [
     {"label": "🦟 Malaria Detection", "desc": "Rapid malaria prediction from blood smear analysis and patient data", "page": "pages/1_Malaria.py", "color": "#dc2626", "color_dark": "#991b1b"},
@@ -201,7 +204,26 @@ for i in range(0, len(models), cols_per_row):
                 </div>
                 """, unsafe_allow_html=True
             )
-            
+
+            # 🎨 Custom button style per model
+            button_style = f"""
+            <style>
+                div.stButton > button[kind="secondary"][key="btn_{i+j}"] {{
+                    background: linear-gradient(135deg, {model['color']} 0%, {model['color_dark']} 100%) !important;
+                    color: white !important;
+                    font-weight: bold !important;
+                    border-radius: 10px !important;
+                    padding: 12px 28px !important;
+                    width: 100% !important;
+                }}
+                div.stButton > button[kind="secondary"][key="btn_{i+j}"]:hover {{
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+                }}
+            </style>
+            """
+            st.markdown(button_style, unsafe_allow_html=True)
+
             if st.button("🚀 Launch Model", key=f"btn_{i+j}", use_container_width=True):
                 st.switch_page(model["page"])
 

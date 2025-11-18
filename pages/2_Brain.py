@@ -120,10 +120,10 @@ if model is None:
 # -------------------------------
 class_names = ['glioma', 'meningioma', 'notumor', 'pituitary']
 class_tooltips = {
-    'glioma': "Malignant tumor originating from glial cells in the brain.",
-    'meningioma': "Usually benign tumor arising from the meninges, the brain's protective membranes.",
-    'pituitary': "Tumor located in the pituitary gland affecting hormonal function.",
-    'notumor': "No tumor detected; MRI appears normal."
+    'Glioma': "Malignant tumor originating from glial cells in the brain.",
+    'Meningioma': "Usually benign tumor arising from the meninges, the brain's protective membranes.",
+    'Pituitary': "Tumor located in the pituitary gland affecting hormonal function.",
+    'No tumor': "No tumor detected; MRI appears normal."
 }
 
 # -------------------------------

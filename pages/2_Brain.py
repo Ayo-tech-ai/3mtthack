@@ -116,14 +116,22 @@ if model is None:
     st.stop()
 
 # -------------------------------
-# Class names and clinical tooltips
+# Class names, display labels, and tooltips
 # -------------------------------
 class_names = ['glioma', 'meningioma', 'notumor', 'pituitary']
+
+display_names = {
+    'glioma': "Glioma",
+    'meningioma': "Meningioma",
+    'pituitary': "Pituitary Tumor",
+    'notumor': "No Tumor"
+}
+
 class_tooltips = {
-    'Glioma': "Malignant tumor originating from glial cells in the brain.",
-    'Meningioma': "Usually benign tumor arising from the meninges, the brain's protective membranes.",
-    'Pituitary': "Tumor located in the pituitary gland affecting hormonal function.",
-    'No tumor': "No tumor detected; MRI appears normal."
+    'glioma': "Malignant tumor originating from glial cells in the brain.",
+    'meningioma': "Usually benign tumor arising from the meninges, the brain's protective membranes.",
+    'pituitary': "Tumor located in the pituitary gland affecting hormonal function.",
+    'notumor': "No tumor detected; MRI appears normal."
 }
 
 # -------------------------------
@@ -145,16 +153,12 @@ with col1:
 # -------------------------------
 with col2:
     if st.button("🩺 Analyze Image", disabled=analyze_disabled):
-        # -------------------------------
-        # Spinner / analyzing
-        # -------------------------------
+
         analyze_time = random.randint(7, 12)
         with st.spinner(f"Analyzing MRI scan... (approximately {analyze_time} seconds)"):
             time.sleep(analyze_time)
 
-        # -------------------------------
         # Preprocess image
-        # -------------------------------
         IMG_SIZE = (224, 224)
         img = image.resize(IMG_SIZE)
         img_array = np.array(img) / 255.0
@@ -166,14 +170,21 @@ with col2:
         predicted_class = class_names[predicted_index]
         confidence = predictions[0][predicted_index]
 
-        # -------------------------------
+        # Pretty display name
+        pretty_class = display_names.get(predicted_class, predicted_class)
+
         # Display results
-        # -------------------------------
-        st.markdown(f'<div class="result-box {predicted_class}">Prediction: {predicted_class}</div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="result-box {predicted_class}">Prediction: {pretty_class}</div>',
+            unsafe_allow_html=True
+        )
         st.markdown(f"Confidence: **{confidence*100:.2f}%**")
 
-        # Clinical explanation / tooltip
+        # Clinical explanation
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.subheader("Clinical Interpretation")
-        st.write(f"{class_tooltips[predicted_class]}")
+
+        explanation = class_tooltips.get(predicted_class, "No interpretation available.")
+        st.write(explanation)
+
         st.markdown('</div>', unsafe_allow_html=True)
